@@ -1,7 +1,10 @@
+const { Router } = require("express");
 const { set } = require("mongoose");
 const express = requiere("express");
 const path = requiere("path");
-const exphbs = reuiere("express-handlebars")
+const exphbs = requiere("express-handlebars");
+const metod0overide = require("method-override");
+const session = require("express-session");
 
 //inicializations
 const app = express();
@@ -17,11 +20,20 @@ app.engine(".hbs", exphbs({
 }))
 app.set("view engine", ".hbs");
 
-//middleware
+//middlewarea
+app.use(express.Urlencode({extended:false}));
+app.use(metod0overide("_metod"));
+app.use(session({
+    secret: "mysecretapp",
+    reset: true,
+    saveUninitialized: true,
+}))
 
 //global variales
 
 //routes
+app.use(require("./routes/index"));
+app.use(require("./routes/users"));
 
 //static files
 
